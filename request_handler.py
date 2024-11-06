@@ -1,6 +1,6 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
-from views.user import create_user, login_user, get_all_users
+from views.user import create_user, login_user, get_all_users, get_single_user
 
 
 class HandleRequests(BaseHTTPRequestHandler):
@@ -57,7 +57,11 @@ class HandleRequests(BaseHTTPRequestHandler):
         if '?' not in self.path:
             (resource, id ) = parsed
             if resource =="users":
-             response = get_all_users()
+             if id is not None:
+              response = get_single_user(id)
+            else:  
+              response = get_all_users()
+              
         self.wfile.write(json.dumps(response).encode())
 
 

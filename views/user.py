@@ -70,6 +70,7 @@ def create_user(user):
             'token': id,
             'valid': True
         })
+    
 def get_all_users():
     with sqlite3.connect("./db.sqlite3") as conn:
         conn.row_factory = sqlite3.Row
@@ -93,4 +94,29 @@ def get_all_users():
         for row in dataset:
             user = User(row ['id'], row['first_name'], row['last_name'], row['username'], row['email'], row ['password'], row['bio'], row['profile_image_url'])
             users.append(user.__dict__)
+
     return users
+
+def get_single_user(id):
+    with sqlite3.connect("./db.sqlite3") as conn:
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
+
+        db_cursor.execture("""
+        SELECT
+        u.id,
+        u.first_name,
+        u.last_name,
+        u.username,
+        u.email,
+        u.password,
+        u.bio,
+        u.profile_image_url
+        FROM User u
+        WHERE u.id = ?
+        """, (id, ))
+
+        data = db_cursor.fetchone()
+        user = User(data['id'], data['first_name'], data['last_name'], data['username'], data['email'], data['password'], data['bio'], data['profile_image_url'])
+
+        return user.__dict__
