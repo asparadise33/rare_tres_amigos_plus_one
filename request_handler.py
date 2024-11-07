@@ -1,15 +1,22 @@
+from urllib.parse import urlparse, parse_qs
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
-from views.user import create_user, login_user, get_all_users, get_single_user
+from views import create_user, login_user, get_all_users, get_single_user
 
 
 class HandleRequests(BaseHTTPRequestHandler):
     """Handles the requests to this server"""
 
-    def parse_url(self):
+    def parse_url(self, path):
         """Parse the url into the resource and id"""
+        parsed_url = urlparse(path)
         path_params = self.path.split('/')
         resource = path_params[1]
+
+        if parsed_url.query:
+            query = parse_qs(parsed_url.query)
+            return (resource, query)
+
         if '?' in resource:
             param = resource.split('?')[1]
             resource = resource.split('?')[0]
@@ -55,13 +62,15 @@ class HandleRequests(BaseHTTPRequestHandler):
         parsed = self.parse_url(self.path)
 
         if '?' not in self.path:
-            (resource, id ) = parsed
-            if resource =="users":
-             if id is not None:
-              response = get_single_user(id)
-            else:  
-              response = get_all_users()
-              
+            ( resource, id ) = parsed
+
+            if resource == "users":
+                if id is not None:
+                    response = get_single_user(id)
+
+                else:  
+                    response = get_all_users()
+       
         self.wfile.write(json.dumps(response).encode())
 
 

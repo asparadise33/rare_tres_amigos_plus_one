@@ -72,20 +72,23 @@ def create_user(user):
         })
     
 def get_all_users():
-    with sqlite3.connect("./db.sqlite3") as conn:
+     with sqlite3.connect('./db.sqlite3') as conn:
         conn.row_factory = sqlite3.Row
         db_cursor = conn.cursor()
+
         db_cursor.execute("""
         SELECT  
             u.id,              
             u.first_name,
             u.last_name,
-            u.username,
             u.email,
+            u.bio,             
+            u.username,
             u.password,
-            u.bio,
-            u.profile_image_url
-        FROM User u                                                                           
+            u.profile_image_url,
+            u.created_on,
+            u.active                                            
+        FROM Users u                                                                           
         """)
 
         users = []
@@ -95,26 +98,28 @@ def get_all_users():
             user = User(row ['id'], row['first_name'], row['last_name'], row['username'], row['email'], row ['password'], row['bio'], row['profile_image_url'])
             users.append(user.__dict__)
 
-    return users
+     return users
 
 def get_single_user(id):
     with sqlite3.connect("./db.sqlite3") as conn:
         conn.row_factory = sqlite3.Row
         db_cursor = conn.cursor()
 
-        db_cursor.execture("""
+        db_cursor.execute("""
         SELECT
-        u.id,
-        u.first_name,
-        u.last_name,
-        u.username,
-        u.email,
-        u.password,
-        u.bio,
-        u.profile_image_url
-        FROM User u
+            u.id,
+            u.first_name,
+            u.last_name,
+            u.bio,
+            u.email,
+            u.username,
+            u.password,
+            u.profile_image_url,
+            u.created_on,
+            u.active
+        FROM Users u
         WHERE u.id = ?
-        """, (id, ))
+        """, ( id, ))
 
         data = db_cursor.fetchone()
         user = User(data['id'], data['first_name'], data['last_name'], data['username'], data['email'], data['password'], data['bio'], data['profile_image_url'])
