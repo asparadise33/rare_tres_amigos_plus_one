@@ -122,6 +122,6 @@ def get_single_user(id):
         """, ( id, ))
 
         data = db_cursor.fetchone()
-        user = User(data['id'], data['first_name'], data['last_name'], data['username'], data['email'], data['password'], data['bio'], data['profile_image_url'])
+        user = User(data['id'], data['first_name'], data['last_name'], data['username'], data['email'], data['password'], data['bio'], data['profile_image_url'], data['created_on'], data['active'])
 
         return user.__dict__
