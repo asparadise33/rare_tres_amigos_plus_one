@@ -90,7 +90,9 @@ INSERT INTO Tags ('label') VALUES ('JavaScript');
 INSERT INTO Reactions ('label', 'image_url') VALUES ('happy', 'https://pngtree.com/so/happy');
 INSERT INTO Users ('first_name', 'last_name', 'email', 'bio', 'username', 'password', 'profile_image_url') VALUES ('Abby', 'Heaven', 'abs@yahoo.com', 'a writer at heart, but a trash collecter by day', 'absofsteel', '123456', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGk6p52-oGWU301FkfCA-4qY87LTzgyZzBwA&s');
 INSERT INTO Users ('first_name', 'last_name', 'email', 'bio', 'username', 'password', 'profile_image_url') VALUES ('Jordan', 'Yougotta', 'ajojo@yahoo.com', 'a writer who hates words', 'ajojo', '123456', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVVxmEniDsYh0jijoRTp1PChkLdUExgDJ5lA&s');
-INSERT INTO Users ('first_name', 'last_name', 'email', 'bio', 'username', 'password', 'profile_image_url') VALUES ('Abby', 'Heaven', 'abs@yahoo.com', 'a writer at heart, but a trash collecter by day', 'absofsteel', '123456', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGk6p52-oGWU301FkfCA-4qY87LTzgyZzBwA&s');
-INSERT INTO Users ('first_name', 'last_name', 'email', 'bio', 'username', 'password', 'profile_image_url') VALUES ('Jordan', 'Yougotta', 'ajojo@yahoo.com', 'a writer who hates words', 'ajojo', '123456', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVVxmEniDsYh0jijoRTp1PChkLdUExgDJ5lA&s');
 
 INSERT INTO Posts ('user_id', 'category_id', 'title', 'publication_date', 'image_url', 'content') VALUES ('1', '1', 'Post', 'date', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGk6p52-oGWU301FkfCA-4qY87LTzgyZzBwA&s', 'test content');
+
+
+INSERT INTO Comments ('author_id', 'post_id', 'content') VALUES ('1', '1', 'this is a test comment');
+
