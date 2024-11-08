@@ -95,7 +95,7 @@ def get_all_users():
 
         dataset = db_cursor.fetchall()
         for row in dataset:
-            user = User(row ['id'], row['first_name'], row['last_name'], row['username'], row['email'], row ['password'], row['bio'], row['profile_image_url'])
+            user = User(row ['id'], row['first_name'], row['last_name'], row['username'], row['email'], row ['password'], row['bio'], row['profile_image_url'], row['created_on'], row ['active'])
             users.append(user.__dict__)
 
      return users

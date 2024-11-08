@@ -24,6 +24,7 @@ class HandleRequests(BaseHTTPRequestHandler):
             key = pair[0]
             value = pair[1]
             return (resource, key, value)
+        
         else:
             id = None
             try:
@@ -81,11 +82,14 @@ class HandleRequests(BaseHTTPRequestHandler):
         post_body = json.loads(self.rfile.read(content_len))
         response = ''
         resource, _ = self.parse_url()
+        post_body = json.loads(post_body)
+        (resource, id) - self.parse_url(self.path)
 
         if resource == 'login':
             response = login_user(post_body)
         if resource == 'register':
             response = create_user(post_body)
+
 
         self.wfile.write(response.encode())
 
