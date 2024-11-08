@@ -10,4 +10,3 @@ class Post():
     self.image_url = image_url
     self.content = content
     self.approved = True
-  
