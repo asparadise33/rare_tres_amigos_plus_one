@@ -17,20 +17,12 @@ class HandleRequests(BaseHTTPRequestHandler):
             query = parse_qs(parsed_url.query)
             return (resource, query)
 
-        if '?' in resource:
-            param = resource.split('?')[1]
-            resource = resource.split('?')[0]
-            pair = param.split('=')
-            key = pair[0]
-            value = pair[1]
-            return (resource, key, value)
-        else:
-            id = None
-            try:
-                id = int(path_params[2])
-            except (IndexError, ValueError):
-                pass
-            return (resource, id)
+        pk = None
+        try:
+            pk = int(path_params[2])
+        except (IndexError, ValueError):
+            pass
+        return (resource, pk)
 
     def _set_headers(self, status):
         """Sets the status code, Content-Type and Access-Control-Allow-Origin
@@ -86,8 +78,11 @@ class HandleRequests(BaseHTTPRequestHandler):
             response = login_user(post_body)
         if resource == 'register':
             response = create_user(post_body)
+        if resource == 'users':
+            response = create_user(post_body)    
 
-        self.wfile.write(response.encode())
+
+        self.wfile.write(json.dumps(response).encode())
 
     def do_PUT(self):
         """Handles PUT requests to the server"""
