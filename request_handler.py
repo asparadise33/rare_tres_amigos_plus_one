@@ -1,7 +1,7 @@
 from urllib.parse import urlparse, parse_qs
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
-from views import create_user, login_user, get_all_users, get_single_user
+from views import create_user, login_user, get_all_users, get_single_user, get_all_comments, get_single_comment
 
 
 class HandleRequests(BaseHTTPRequestHandler):
@@ -62,6 +62,14 @@ class HandleRequests(BaseHTTPRequestHandler):
 
                 else:  
                     response = get_all_users()
+                    
+            
+            if resource == "comments":
+                if id is not None:
+                    response = get_single_comment(id)
+
+                else:  
+                    response = get_all_comments()
        
         self.wfile.write(json.dumps(response).encode())
 
