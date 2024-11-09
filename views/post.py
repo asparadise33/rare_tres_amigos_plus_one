@@ -55,7 +55,7 @@ def get_single_post(id):
             p.content,
             p.approved
   
-        FROM post p
+        FROM posts p
         WHERE p.id = ?
         """, ( id, ))
 
@@ -69,6 +69,15 @@ def get_single_post(id):
 
         return post.__dict__
 
+def delete_post(id):
+    with sqlite3.connect("./db.sqlite3") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        DELETE FROM posts
+        WHERE id = ?
+        """, (id, ))
+    
 def create_post(new_post):
     with sqlite3.connect("./db.sqlite3") as conn:
         db_cursor = conn.cursor()

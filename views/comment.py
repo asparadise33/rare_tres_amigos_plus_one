@@ -19,13 +19,10 @@ def get_all_comments():
         FROM Comments c                                            
         """)
 
-        # Initialize an empty list to hold all animal representations
         comments = []
 
-        # Convert rows of data into a Python list
         dataset = db_cursor.fetchall()
 
-        # Iterate list of data returned from database
         for row in dataset:
 
             comment = Comment(row['id'], row['author_id'], row['post_id'],
@@ -55,3 +52,20 @@ def get_single_comment(id):
                             data['content'])
 
         return comment.__dict__
+
+def create_comment(new_comment):
+    with sqlite3.connect("./db.sqlite3") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        INSERT INTO Comments
+            ( author_id, post_id, content )
+        VALUES
+            ( ?, ?, ?);
+        """, (new_comment['author_id'], new_comment['post_id'],
+              new_comment['content'], ))
+
+
+        id = db_cursor.lastrowid
+
+        new_comment['id'] = id
