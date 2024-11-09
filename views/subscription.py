@@ -78,4 +78,22 @@ def create_subscription(new_subscription):
         new_subscription['id'] = id
         
     return new_subscription
-            
+
+def update_subscription(id, new_subscription):
+    with sqlite3.connect("./db.sqlite3") as conn:
+        db_cursor = conn.cursor()
+        db_cursor.execute("""
+        UPDATE Subscriptions
+            SET
+                id = ?,
+                follower_id = ?,
+                author_id = ?,
+                created_on = ?
+        WHERE id = ?
+        """, (new_subscription['id'], new_subscription['follower_id'],
+              new_subscription['author_id'], new_subscription['created_on'],  id, ))
+        rows_affected = db_cursor.rowcount
+    if rows_affected == 0:
+        return False
+    else:
+        return True
