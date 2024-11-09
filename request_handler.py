@@ -2,7 +2,7 @@ from urllib.parse import urlparse, parse_qs
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 
-from views import create_user, login_user, get_all_users, get_single_user, get_all_comments, get_single_comment, get_all_posts, get_single_post
+from views import create_user, login_user, get_all_users, get_single_user, update_user, get_all_comments, get_single_comment, get_all_posts, get_single_post
 
 class HandleRequests(BaseHTTPRequestHandler):
     """Handles the requests to this server"""
@@ -101,7 +101,25 @@ class HandleRequests(BaseHTTPRequestHandler):
 
     def do_PUT(self):
         """Handles PUT requests to the server"""
-        pass
+        self._set_headers(204)
+        content_len = int(self.headers.get('content-length', 0))
+        post_body = self.rfile.read(content_len)
+        post_body = json.loads(post_body)
+
+        
+        (resource, id) = self.parse_url(self.path)
+
+        success = False
+
+        if resource == "users":
+           success = update_user(id, post_body)
+    
+        if success:
+            self._set_headers(204)
+        else:
+            self._set_headers(404)
+
+        self.wfile.write("".encode())
 
     def do_DELETE(self):
         """Handle DELETE Requests"""
