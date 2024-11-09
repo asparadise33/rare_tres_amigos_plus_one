@@ -3,6 +3,7 @@ import json
 from datetime import datetime
 from models import User
 
+
 def login_user(user):
     """Checks for the user in the database
 
@@ -156,3 +157,12 @@ def update_user(id, new_user):
     else:
         # Forces 204 response by main module
         return True 
+    
+def delete_user(id):
+    with sqlite3.connect('./db.sqlite3') as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        DELETE FROM users
+        WHERE id = ?
+        """, (id, ))
