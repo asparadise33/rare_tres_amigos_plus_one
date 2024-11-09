@@ -2,7 +2,7 @@ from urllib.parse import urlparse, parse_qs
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 
-from views import create_user, login_user, get_all_users, get_single_user, get_all_comments, get_single_comment, get_all_posts, get_single_post, create_post
+from views import create_user, login_user, get_all_users, get_single_user, get_all_comments, get_single_comment, get_all_posts, get_single_post, create_post, get_all_subscriptions, get_single_subscription
 
 class HandleRequests(BaseHTTPRequestHandler):
     """Handles the requests to this server"""
@@ -76,7 +76,14 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = get_single_post(id)
 
                 else:
-                    response = get_all_posts()        
+                    response = get_all_posts()
+            
+            if resource == "subscriptions":
+                if id is not None:
+                    response = get_single_subscription(id)
+
+                else:
+                    response = get_all_subscriptions()           
        
         self.wfile.write(json.dumps(response).encode())
 

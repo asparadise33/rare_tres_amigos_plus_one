@@ -96,3 +96,5 @@ INSERT INTO Posts ('user_id', 'category_id', 'title', 'publication_date', 'image
 
 INSERT INTO Comments ('author_id', 'post_id', 'content') VALUES ('1', '1', 'this is a test comment');
 
+INSERT INTO Subscriptions ('id', 'follower_id', 'author_id','created_on') VALUES ('1', '1', '1', 'date');
+INSERT INTO Subscriptions ('id', 'follower_id', 'author_id','created_on') VALUES ('2', '2', '2', 'date');
