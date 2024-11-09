@@ -2,7 +2,10 @@ from urllib.parse import urlparse, parse_qs
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 
-from views import create_user, login_user, get_all_users, update_user, get_single_user, delete_user, get_all_comments, get_single_comment, create_comment, get_all_posts, get_single_post, create_post, get_all_subscriptions, get_single_subscription, delete_post, create_subscription, update_subscription, delete_subscription
+
+
+from views import create_user, login_user, get_all_users, update_user, get_single_user, delete_user, get_all_comments, get_single_comment, create_comment, update_comment, get_all_posts, get_single_post, create_post, get_all_subscriptions, get_single_subscription, delete_post, create_subscription, update_subscription, update_post, delete_subscription
+
 
 
 
@@ -127,6 +130,20 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         if resource == "users":
            success = update_user(id, post_body)
+
+        if resource == "posts":
+            success = update_post(id, post_body)
+            
+        if resource == "comments":
+            success = update_comment(id, post_body)    
+            
+        if success:
+            self._set_headers(204)
+        else:
+            self._set_headers(404)
+            
+        if resource == "subscriptions":
+           success = update_subscription(id, post_body)
     
         if success:
             self._set_headers(204)

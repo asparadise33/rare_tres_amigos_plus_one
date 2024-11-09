@@ -88,7 +88,8 @@ def update_subscription(id, new_subscription):
                 id = ?,
                 follower_id = ?,
                 author_id = ?,
-                created_on = ?,
+                created_on = ?
+                
         WHERE id = ?
         """, (new_subscription['id'], new_subscription['follower_id'],
               new_subscription['author_id'], new_subscription['created_on'],  id, ))
@@ -97,6 +98,7 @@ def update_subscription(id, new_subscription):
         return False
     else:
         return True
+
     
 def delete_subscription(id):
     with sqlite3.connect('./db.sqlite3') as conn:
@@ -106,3 +108,4 @@ def delete_subscription(id):
         DELETE FROM Subscriptions
         WHERE id = ?
         """, (id, ))
+
