@@ -2,7 +2,9 @@ from urllib.parse import urlparse, parse_qs
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 
-from views import create_user, login_user, get_all_users, get_single_user, get_all_comments, get_single_comment, get_all_posts, get_single_post, create_post, get_all_subscriptions, get_single_subscription, create_subscription
+
+from views import create_user, login_user, get_all_users, update_user, get_single_user, get_all_comments, get_single_comment, create_comment, get_all_posts, get_single_post, create_post, get_all_subscriptions, get_single_subscription, create_subscription, delete_post
+
 
 class HandleRequests(BaseHTTPRequestHandler):
     """Handles the requests to this server"""
@@ -106,15 +108,44 @@ class HandleRequests(BaseHTTPRequestHandler):
             resource = create_post(post_body)
         if resource == 'subscriptions':
             resource = create_subscription(post_body)
+        if resource == 'comments':
+            resource = create_comment(post_body)
+            
         self.wfile.write(json.dumps(response).encode())
 
     def do_PUT(self):
         """Handles PUT requests to the server"""
-        pass
+        self._set_headers(204)
+        content_len = int(self.headers.get('content-length', 0))
+        post_body = self.rfile.read(content_len)
+        post_body = json.loads(post_body)
+
+        
+        (resource, id) = self.parse_url(self.path)
+
+        success = False
+
+        if resource == "users":
+           success = update_user(id, post_body)
+    
+        if success:
+            self._set_headers(204)
+        else:
+            self._set_headers(404)
+
+        self.wfile.write("".encode())
 
     def do_DELETE(self):
         """Handle DELETE Requests"""
-        pass
+        self._set_headers(204)
+
+    # Parse the URL
+        (resource, id) = self.parse_url(self.path)
+
+        if resource == "posts":
+          delete_post(id)
+          
+        self.wfile.write("".encode())
 
 
 def main():
