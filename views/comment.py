@@ -98,3 +98,12 @@ def update_comment(id, new_comment):
     else:
         # Forces 204 response by main module
         return True
+
+def delete_comment(id):
+    with sqlite3.connect("./db.sqlite3") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        DELETE FROM comments
+        WHERE id = ?
+        """, (id, ))
