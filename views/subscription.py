@@ -60,3 +60,22 @@ def get_single_subscription(id):
                             data['created_on'])
 
         return subscription.__dict__
+
+def create_subscription(new_subscription):
+    with sqlite3.connect("./db.sqlite3") as conn:
+        db_cursor = conn.cursor()
+            
+        db_cursor.execute("""
+        INSERT INTO Subscriptions
+            ( id, follower_id, author_id, created_on )
+        VALUES
+            ( ?, ?, ?, ? )
+        """, (new_subscription['id'], new_subscription['follower_id'],
+              new_subscription['author_id'], new_subscription['created_on'],  ))
+            
+        id = db_cursor.lastrowid
+            
+        new_subscription['id'] = id
+        
+    return new_subscription
+            
