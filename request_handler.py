@@ -118,7 +118,7 @@ class HandleRequests(BaseHTTPRequestHandler):
     # Parse the URL
         (resource, id) = self.parse_url(self.path)
 
-        if resource == "animals":
+        if resource == "posts":
           delete_post(id)
           
         self.wfile.write("".encode())
